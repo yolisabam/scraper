@@ -1,0 +1,39 @@
+<nav class="navbar navbar-inverse">
+  <div class="container">
+    <div class="navbar-header">
+      {{#if saved}}
+        <a class="navbar-brand" href="#">Saved Articles</a>
+      {{else}}
+        <a class="navbar-brand" href="#">Tech News Scraper</a>
+      {{/if}}
+    </div>
+
+    <div>
+      <ul class="nav navbar-nav">
+        {{#if saved}}
+          <li><a href="/">Home</a></li>
+          <li class="active"><a href="/saved">Saved Articles</a></li>
+        {{else}}
+          <li class="active"><a href="/">Home</a></li>
+          <li><a href="/saved">Saved Articles</a></li>
+          <li><a class="btn btn-danger scrape-articles">SCRAPE NEW ARTICLES</a></li>
+        {{/if}}
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="container">
+  <div class="jumbotron">
+    <div class="theme-image">
+    </div>
+    <div class="page-caption">
+      <h1>Tech News Mongo Scraper</h1>
+      <p>For All The Techies Out There</p>
+    </div>
+  </div>
+
+  {{#each articles}}
+    {{> articles/articles-block}}
+  {{/each}}
+</div>

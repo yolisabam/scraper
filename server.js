@@ -15,6 +15,10 @@ app.use(bodyParser.urlencoded({ extended: false}));
 
 app.use(express.static("public"));
 
+// pointing handlebars to main page
+app.engine("handlebars", exhbs({ defaultLayout: "main" }));
+app.set("view engine", "handlebars");
+
 mongoose.Promise = Promise;
 
 mongoose.connect("mongodb://localhost/mongoScraper",{
@@ -29,12 +33,12 @@ app.get("/scrape", function(req, res) {
 
    $("header h2").each(function(i, element) {
       var result = {};
-      console.log(i);
+      // console.log(i);
 
       result.title = $(this).children("a").text();
       result.link = $(this).children("a").attr("href");
       result.summary = $(this).children("a").text(); 
-      console.log(result);
+      // console.log(result);
       db.Article
       .create(result)
       .then(function(dbArticle){
@@ -47,21 +51,31 @@ app.get("/scrape", function(req, res) {
 });
 
 
-// Root route finding all articles in database, sorting them and renderging the handlebars
+// Root route finding all articles in database, sorting them and rendering the handlebars
 app.get("/", function (req, res) {
-    db.Article.find().sort({_id: -1})
-    .populate('comments')
-    .then(function(err, result){
-      if (err){
-        console.log(err);
-      } 
-      else {
-        // console.log(doc)
-        var hbsObject = {articles: result}
-        res.render('index', hbsObject);
-      }
+    db.Article
+    .find({saved: false})
+    .sort({_id: -1})
+    .then(function(result){
+        console.log("hello");
+        res.render("index", {articles: result, saved: false});
+      });
     });
+  
+   
+
+
+app.get("/saved", function(req, res){
+  db.Article
+  .find({saved: true})
+  .sort({_id: -1})
+  .then(function(articles){
+    res.render("index", {articles: articles, saved: true});
+  })
+  .catch(function(err){
+    res.json(err);
   });
+});
 
 // Route to save articles you like
 app.get("/save/:id", function (req, res) {

@@ -1,0 +1,27 @@
+<nav class="navbar navbar-default">
+  <div class="container">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#">Tech News Scraper</a>
+    </div>
+
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        {{#if saved}}
+        <li><a href="/">Home</a></li>
+        <li class="active"><a href="/saved">Saved Articles</a></li>
+        {{else}}
+        <li><a class="active" href="/">Home</a></li>
+        <li><a href="/saved">Saved Articles</a></li>
+        {{/if}}
+        <li><a class="btn btn-danger scrape-articles">SCRAPE NEW ARTICLES!</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="container">
+  <div class="jumbotron text-center">
+    <div class="caption">
+      <h1>Tech News Scraper</h1>
+    </div>
+  </div>
